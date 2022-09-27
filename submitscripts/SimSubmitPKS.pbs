@@ -1,0 +1,9 @@
+#PBS -N LIVSim4
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=5:00:00
+#PBS -q cygnuspa-6
+#PBS -l mem=16gb
+#PBS -e /gpfs/pace1/project/phy-otte/agent3/LIV/sims 
+#PBS -o /gpfs/pace1/project/phy-otte/agent3/LIV/sims
+cd /gpfs/pace1/project/phy-otte/agent3/LIV/sims
+root -b SIMPKS2155.C

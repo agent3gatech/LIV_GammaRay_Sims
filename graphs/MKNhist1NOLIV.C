@@ -1,0 +1,98 @@
+{
+//=========Macro generated from canvas: c1/
+//=========  (Wed Jun 14 12:18:43 2017) by ROOT version5.34/36
+   TCanvas *c1 = new TCanvas("c1", "",0,0,700,500);
+   c1->Range(0,0,1,1);
+   c1->SetFillColor(0);
+   c1->SetBorderMode(0);
+   c1->SetBorderSize(2);
+   c1->SetFrameBorderMode(0);
+   
+   TH1D *h = new TH1D("h","  Lightcurve - MKN501",100,0,2750);
+   h->SetBinContent(1,29);
+   h->SetBinContent(2,59);
+   h->SetBinContent(3,101);
+   h->SetBinContent(4,138);
+   h->SetBinContent(5,178);
+   h->SetBinContent(6,317);
+   h->SetBinContent(7,470);
+   h->SetBinContent(8,617);
+   h->SetBinContent(9,825);
+   h->SetBinContent(10,1078);
+   h->SetBinContent(11,1542);
+   h->SetBinContent(12,2069);
+   h->SetBinContent(13,2691);
+   h->SetBinContent(14,3455);
+   h->SetBinContent(15,4431);
+   h->SetBinContent(16,5465);
+   h->SetBinContent(17,6701);
+   h->SetBinContent(18,8163);
+   h->SetBinContent(19,9765);
+   h->SetBinContent(20,11590);
+   h->SetBinContent(21,13449);
+   h->SetBinContent(22,15115);
+   h->SetBinContent(23,17013);
+   h->SetBinContent(24,18952);
+   h->SetBinContent(25,20762);
+   h->SetBinContent(26,22110);
+   h->SetBinContent(27,23110);
+   h->SetBinContent(28,24001);
+   h->SetBinContent(29,24599);
+   h->SetBinContent(30,24475);
+   h->SetBinContent(31,24244);
+   h->SetBinContent(32,23660);
+   h->SetBinContent(33,22624);
+   h->SetBinContent(34,21655);
+   h->SetBinContent(35,19625);
+   h->SetBinContent(36,18093);
+   h->SetBinContent(37,16216);
+   h->SetBinContent(38,14349);
+   h->SetBinContent(39,12483);
+   h->SetBinContent(40,10677);
+   h->SetBinContent(41,9016);
+   h->SetBinContent(42,7607);
+   h->SetBinContent(43,6250);
+   h->SetBinContent(44,5123);
+   h->SetBinContent(45,3907);
+   h->SetBinContent(46,3107);
+   h->SetBinContent(47,2285);
+   h->SetBinContent(48,1788);
+   h->SetBinContent(49,1367);
+   h->SetBinContent(50,1037);
+   h->SetBinContent(51,675);
+   h->SetBinContent(52,470);
+   h->SetBinContent(53,350);
+   h->SetBinContent(54,222);
+   h->SetBinContent(55,174);
+   h->SetBinContent(56,96);
+   h->SetBinContent(57,75);
+   h->SetBinContent(58,59);
+   h->SetBinContent(59,30);
+   h->SetBinContent(60,14);
+   h->SetBinContent(61,10);
+   h->SetBinContent(62,3);
+   h->SetBinContent(63,6);
+   h->SetBinContent(64,4);
+   h->SetEntries(490571);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   h->SetLineColor(ci);
+   h->GetXaxis()->SetLabelFont(42);
+   h->GetXaxis()->SetLabelSize(0.035);
+   h->GetXaxis()->SetTitleSize(0.035);
+   h->GetXaxis()->SetTitleFont(42);
+   h->GetYaxis()->SetLabelFont(42);
+   h->GetYaxis()->SetLabelSize(0.035);
+   h->GetYaxis()->SetTitleSize(0.035);
+   h->GetYaxis()->SetTitleFont(42);
+   h->GetZaxis()->SetLabelFont(42);
+   h->GetZaxis()->SetLabelSize(0.035);
+   h->GetZaxis()->SetTitleSize(0.035);
+   h->GetZaxis()->SetTitleFont(42);
+   h->Draw("");
+   c1->Modified();
+   c1->cd();
+   c1->SetSelected(c1);
+}

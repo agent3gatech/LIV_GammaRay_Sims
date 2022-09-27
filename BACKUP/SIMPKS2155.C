@@ -1,0 +1,366 @@
+#include <cmath>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+#include <string>
+#include <cmath>
+#include <time.h>
+#include <vector>
+#include <algorithm>
+#include <math.h>
+#include <TMath.h>
+#include <TRandom3.h>
+#include <TFile.h>
+#include <TF1.h>
+#include <TH1.h>
+#include <TH2.h>
+
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+
+	TString  sInstrumentResponseFile = "/gpfs/pace1/project/phy-otte/agent3/LIV/IRFs/HESS.PKS2155-304.1.root";
+
+
+	TF1* PKS2155()
+	{
+		char formula[2048] = "";
+
+  		for(int i=0;i<5;i++) sprintf(formula,"%s[%d]*exp(-(x-[%d])*(x-[%d])/(2*[%d]*[%d]))*(x<[%d]) + [%d]*exp(-(x-[%d])*(x-[%d])/(2*[%d]*[%d]))*(x>[%d]) + ",
+        		formula, 4*i,4*i+1,4*i+1, 4*i+2, 4*i+2, 4*i+1, 4*i,4*i+1,4*i+1, 4*i+3, 4*i+3, 4*i+1);
+    
+		sprintf(formula,"%s[%d]",formula,4*5);
+
+    		TF1 *func = new TF1("PKS2155",formula,0,4000);
+
+  		double par [21] = {27.1, 430.4, 399.9, 352.9, 26.0, 1456.1, 342.9, 193.3, 28, 2113.1, 276.1, 296.8, 20, 2639.7, 130.3, 899.8, 9.4, 3302.3, 87.1, 999.9,-14.1};
+
+  		func->SetParameters(par);
+
+  		return func;
+	}
+
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+
+void SIMPKS2155() {
+
+	int NumberOfDataSets = 1000;		       //Number of datasets to include in OF. 
+
+        bool SecondOrder = false;       	       //True for second order dispersion term, False for first order dispersion term.
+	bool LIV         = false;                      //Include LIV correction or not.
+        bool SupLum      = false;                       //Super Luminar assumption if true. Corresponds to a -/+ in deltat.
+
+
+	char name[256] = "PKS2155NOLIV.txt";
+
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+
+	cout<<"~~~~Reading in the instrument response functions~~~~"<<endl;
+	
+	TFile *f = NULL;	
+
+	if (!(f = TFile::Open(sInstrumentResponseFile)))
+		  {
+    		  cout << "!!!!!!!ERROR: Could not open Root performance file!!!!!!!" << sInstrumentResponseFile << endl;
+    		  exit(0);
+  		  }		
+
+
+	TH2F *hMigrationMatrix = NULL;
+	TH1F *hEffAreaTrue     = NULL;
+
+  if (!(hEffAreaTrue = (TH1F*)f->Get("EffectiveAreaEtrue")->Clone("hEffAreaTrue")))
+  {
+    cout << "!!!!!!!ERROR: Did not find histogram EffectiveAreaEtrue in the provided Root performance file!!!!!!!" << sInstrumentResponseFile << endl;
+    exit(0);
+  }
+	 
+	if (!(hMigrationMatrix = (TH2F*)(f->Get("MigMatrix")->Clone("hMigrationMatrix"))))
+  {
+    cout << "!!!!!!!ERROR: Did not find migration matrix in the provided root performance file!!!!!!!" << sInstrumentResponseFile << endl;
+    exit(0);
+  }
+
+
+  cout<<"~~~~Loaded all instrument response function from a CTA file~~~~"<<endl;
+
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+	
+	Double_t ELIV = 1e16;			//LIV energy parameter in TeV.
+	Double_t c    = 2.99792458e8;	        //Initialize Distance Parameter for each source.
+
+	Double_t Emin = 0.28; 
+	Double_t Emax = 4;	
+
+	Double_t z = 0.116;
+	Double_t tH0 = 4.55e17;
+	Double_t omegaM = 0.3;
+	Double_t omegaG = 0.7;
+ 	Double_t hz = sqrt(omegaG + (omegaM*pow(1+z,3)));
+	Double_t D1 = z*(1+z)/hz;	
+	Double_t D2 = z*(1+z)*(1+z)/hz;
+	
+	TRandom3 *rand3 = new TRandom3();
+        gRandom = rand3;
+ 
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+
+	int meanIterations = 2965;              //Mean number of events, actual value randomly generated from Poissonian distribution. 
+
+	TF1 *S = PKS2155();
+	TF1 *B = new TF1("B","0",0,4000);
+	TF1 *H = new TF1("H","0",0,4000);
+
+        TF1 *SignalSpectrum     = new TF1("SignalSpectrum"    ,"pow(x,-3.46)",0.5*Emin,1.5*Emax);
+        TF1 *BackgroundSpectrum = new TF1("BackgroundSpectrum","pow(x,-3.32)",0.5*Emin,1.5*Emax);
+
+	double SignalRatio      = 0.98;
+	double BackgroundRatio  = 0.02;	
+	double HadronRatio      = 0;
+
+	TF1 *sc = new TF1("sc","exp(-(x-[0])*(x-[0])/(2*[0]))",0,2*meanIterations);
+        sc->SetParameter(0,SignalRatio*meanIterations);
+
+        TF1 *bc = new TF1("bc","exp(-(x-[0])*(x-[0])/(2*[0]))",0,2*meanIterations);
+        bc->SetParameter(0,BackgroundRatio*meanIterations);
+
+	TF1 *hc = new TF1("hc","exp(-(x-[0])*(x-[0])/(2*[0]))",0,2*meanIterations);
+        hc->SetParameter(0,HadronRatio*meanIterations);
+
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+
+	ofstream file;
+        file.open(name);
+
+	for (int n = 0; n < NumberOfDataSets; n++)
+	{
+  
+		Double_t nonintsignaliterations     = TMath::Abs(sc  ->GetRandom());
+		Double_t nonintbackgrounditerations = 0;
+		Double_t noninthadroniterations     = 0;
+
+		int actualSignalIterations     = (int) nonintsignaliterations;
+        	int actualBackgroundIterations = (int) nonintbackgrounditerations;
+		int actualHadronIterations     = (int) noninthadroniterations;
+		
+		int photonIterations = actualSignalIterations + actualBackgroundIterations;
+		int totalIterations  = actualSignalIterations + actualBackgroundIterations + actualHadronIterations;
+
+		Double_t *events           = new Double_t [totalIterations];
+       		Double_t *recenergies      = new Double_t [totalIterations];
+        	int      *ind              = new int      [totalIterations];  
+		Double_t *normareas        = new Double_t [totalIterations];
+		Double_t *trueenergies     = new Double_t [totalIterations];
+		Double_t *effareas         = new Double_t [totalIterations];
+		Double_t *dts              = new Double_t [totalIterations];
+                int      *flags            = new int      [totalIterations];
+
+		 Double_t energy;
+                 Double_t arrivaltime;
+                 Double_t deltat;
+                 Double_t AreaB;
+                 Double_t AreaA;
+                 Double_t LogEB;
+                 Double_t LogEA;
+                 Double_t gradient; 
+		 Double_t intercept; 
+		 Double_t NormalisedEffArea;
+                 Double_t ERec;
+                 Double_t EffArea;
+                 TH1D* yproj;
+                 //Double_t MaxEffArea = -100000;
+
+		int TrueAreaMaxBin    = hEffAreaTrue -> GetMaximumBin();
+		Double_t MaxEffTrue = hEffAreaTrue  ->GetBinContent(TrueAreaMaxBin);	
+
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+
+		int k = 0;
+	
+		while (k < totalIterations) 
+			{
+	
+			if (k < actualSignalIterations)
+				{
+				arrivaltime = TMath::Abs(S                  ->GetRandom());
+       	        		energy      = TMath::Abs(SignalSpectrum     ->GetRandom());
+				}
+
+			else
+				{		
+				if (k < photonIterations)
+					{
+					arrivaltime = TMath::Abs(B                  ->GetRandom());
+              				energy      = TMath::Abs(SignalSpectrum     ->GetRandom());
+					}
+				else
+					{
+					arrivaltime = TMath::Abs(H                  ->GetRandom());
+            			 	energy      = TMath::Abs(BackgroundSpectrum ->GetRandom());
+					}
+
+
+				}
+
+
+
+		if(SupLum)
+			{
+
+              		  if(SecondOrder)
+				{
+         		        deltat = -(tH0*D2)*pow(energy/ELIV,2);
+                		}
+               		  else
+				{
+                		deltat = -(tH0*D1)*(energy/ELIV);
+                		}
+              		}
+
+                else
+			{
+
+              		if(SecondOrder)
+				{
+                		deltat = +(tH0*D2)*pow(energy/ELIV,2);
+               			}
+                	else
+				{
+				deltat = +(tH0*D1)*(energy/ELIV);
+               			 }
+               		}	
+
+
+		 if(LIV)
+                                {
+                                arrivaltime       = (arrivaltime + deltat);
+                                }
+                        else
+                                {
+                                deltat = 0;
+                                arrivaltime       = (arrivaltime + deltat);
+                                }
+
+
+	
+		Double_t AssignRand = rand3->Rndm();
+
+		Double_t LogE = log10(energy);
+
+		int      energybin       = hEffAreaTrue->FindBin(LogE,0,0);
+		Double_t energybincenter = hEffAreaTrue->GetBinCenter(energybin);
+	
+		if (LogE > energybincenter)
+			{
+
+			int rightbin = energybin + 1;
+
+			AreaA = hEffAreaTrue->GetBinContent(energybin);
+			AreaB = hEffAreaTrue->GetBinContent(rightbin );
+			LogEA = hEffAreaTrue->GetBinCenter (energybin);
+			LogEB = hEffAreaTrue->GetBinCenter (rightbin );
+
+			}
+	
+		else
+			{
+			int leftbin = energybin -1;
+
+			AreaA = hEffAreaTrue->GetBinContent(leftbin  );
+		        AreaB = hEffAreaTrue->GetBinContent(energybin);
+		        LogEA = hEffAreaTrue->GetBinCenter (leftbin  );
+		        LogEB = hEffAreaTrue->GetBinCenter (energybin);
+
+			}
+
+		 gradient = (AreaB - AreaA)/(LogEB - LogEA);
+		 intercept = AreaA - (gradient*LogEA);
+	
+		EffArea           = (intercept + (gradient*LogE));
+		NormalisedEffArea = EffArea/MaxEffTrue;
+
+		int trueenergybin = hMigrationMatrix->GetXaxis()->FindBin(LogE);
+
+		yproj = hMigrationMatrix->ProjectionY("yproj",trueenergybin,trueenergybin);
+
+
+                Double_t LogRecEnergy = yproj->GetRandom();
+                Double_t ERec = pow(10,LogRecEnergy);
+
+
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+	
+		if(AssignRand <= NormalisedEffArea && ERec => Emin && ERec =< Emax)
+			{
+
+			events[k]       = arrivaltime;
+                        recenergies[k]  = ERec;
+                        normareas[k]    = NormalisedEffArea;
+                        effareas[k]     = EffArea;
+                        dts[k]         = deltat;
+                        trueenergies[k] = energy;
+
+
+		if (k < actualSignalIterations)
+                                {
+                                flags[k] = 0;
+                                }
+
+                         else
+                                {
+
+                                if (k < photonIterations)
+                                        {
+                                        flags[k] = 1;
+                                        }
+                                else
+                                        {
+                                        flags[k] = 2;
+                                        }
+                                }
+
+			k++;
+			}
+		}
+
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+//=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\/=\\
+
+	TMath::Sort(totalIterations,events,ind,false);
+	
+	file << "#" << "      " << totalIterations << "\n";	
+
+	for(int i=0; i < totalIterations; i++) 
+		{
+
+ 		 file << setw(11) << fixed << setprecision(6) << events[ind[i]] << "          " << setw(9) << fixed << setprecision(6) << dts[ind[i]] << "          " << setw(6) << fixed << setprecision(3) << recenergies[ind[i]] << "           " << setw(6) << fixed << setprecision(3) << trueenergies[ind[i]] << "           " << setw(10) << fixed << setprecision(3) << effareas[ind[i]] << "           " << setw(5) << fixed << setprecision(3) << normareas[ind[i]] << "          " << flags[ind[i]] <<  "\n";
+ 		}
+	
+
+	printf("Data Set Complete # %i\n",n+1);	 
+	
+	}	
+
+	file.close();
+
+//=================================================================================================================================================
+
+	printf("All done.\n");
+	}
+
+

@@ -1,0 +1,353 @@
+---------------------------------------
+Begin PBS Prologue Mon May 29 13:24:56 EDT 2017
+Job ID:     16015539.shared-sched.pace.gatech.edu
+User ID:    agent3
+Job name:   LIVSim4
+Queue:      cygnuspa-6
+End PBS Prologue Mon May 29 13:24:56 EDT 2017
+---------------------------------------
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   5.34/36      5 April 2016   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+ROOT 5.34/36 (v5-34-36@v5-34-36, Apr 05 2016, 10:25:45 on linuxx8664gcc)
+
+CINT/ROOT C/C++ Interpreter version 5.18.00, July 2, 2010
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+
+Processing SIMPKS2155.C...
+~~~~Reading in the instrument response functions~~~~
+~~~~Loaded all instrument response function from a CTA file~~~~
+Data Set Complete # 1
+Data Set Complete # 2
+Data Set Complete # 3
+Data Set Complete # 4
+Data Set Complete # 5
+Data Set Complete # 6
+Data Set Complete # 7
+Data Set Complete # 8
+Data Set Complete # 9
+Data Set Complete # 10
+Data Set Complete # 11
+Data Set Complete # 12
+Data Set Complete # 13
+Data Set Complete # 14
+Data Set Complete # 15
+Data Set Complete # 16
+Data Set Complete # 17
+Data Set Complete # 18
+Data Set Complete # 19
+Data Set Complete # 20
+Data Set Complete # 21
+Data Set Complete # 22
+Data Set Complete # 23
+Data Set Complete # 24
+Data Set Complete # 25
+Data Set Complete # 26
+Data Set Complete # 27
+Data Set Complete # 28
+Data Set Complete # 29
+Data Set Complete # 30
+Data Set Complete # 31
+Data Set Complete # 32
+Data Set Complete # 33
+Data Set Complete # 34
+Data Set Complete # 35
+Data Set Complete # 36
+Data Set Complete # 37
+Data Set Complete # 38
+Data Set Complete # 39
+Data Set Complete # 40
+Data Set Complete # 41
+Data Set Complete # 42
+Data Set Complete # 43
+Data Set Complete # 44
+Data Set Complete # 45
+Data Set Complete # 46
+Data Set Complete # 47
+Data Set Complete # 48
+Data Set Complete # 49
+Data Set Complete # 50
+Data Set Complete # 51
+Data Set Complete # 52
+Data Set Complete # 53
+Data Set Complete # 54
+Data Set Complete # 55
+Data Set Complete # 56
+Data Set Complete # 57
+Data Set Complete # 58
+Data Set Complete # 59
+Data Set Complete # 60
+Data Set Complete # 61
+Data Set Complete # 62
+Data Set Complete # 63
+Data Set Complete # 64
+Data Set Complete # 65
+Data Set Complete # 66
+Data Set Complete # 67
+Data Set Complete # 68
+Data Set Complete # 69
+Data Set Complete # 70
+Data Set Complete # 71
+Data Set Complete # 72
+Data Set Complete # 73
+Data Set Complete # 74
+Data Set Complete # 75
+Data Set Complete # 76
+Data Set Complete # 77
+Data Set Complete # 78
+Data Set Complete # 79
+Data Set Complete # 80
+Data Set Complete # 81
+Data Set Complete # 82
+Data Set Complete # 83
+Data Set Complete # 84
+Data Set Complete # 85
+Data Set Complete # 86
+Data Set Complete # 87
+Data Set Complete # 88
+Data Set Complete # 89
+Data Set Complete # 90
+Data Set Complete # 91
+Data Set Complete # 92
+Data Set Complete # 93
+Data Set Complete # 94
+Data Set Complete # 95
+Data Set Complete # 96
+Data Set Complete # 97
+Data Set Complete # 98
+Data Set Complete # 99
+Data Set Complete # 100
+Data Set Complete # 101
+Data Set Complete # 102
+Data Set Complete # 103
+Data Set Complete # 104
+Data Set Complete # 105
+Data Set Complete # 106
+Data Set Complete # 107
+Data Set Complete # 108
+Data Set Complete # 109
+Data Set Complete # 110
+Data Set Complete # 111
+Data Set Complete # 112
+Data Set Complete # 113
+Data Set Complete # 114
+Data Set Complete # 115
+Data Set Complete # 116
+Data Set Complete # 117
+Data Set Complete # 118
+Data Set Complete # 119
+Data Set Complete # 120
+Data Set Complete # 121
+Data Set Complete # 122
+Data Set Complete # 123
+Data Set Complete # 124
+Data Set Complete # 125
+Data Set Complete # 126
+Data Set Complete # 127
+Data Set Complete # 128
+Data Set Complete # 129
+Data Set Complete # 130
+Data Set Complete # 131
+Data Set Complete # 132
+Data Set Complete # 133
+Data Set Complete # 134
+Data Set Complete # 135
+Data Set Complete # 136
+Data Set Complete # 137
+Data Set Complete # 138
+Data Set Complete # 139
+Data Set Complete # 140
+Data Set Complete # 141
+Data Set Complete # 142
+Data Set Complete # 143
+Data Set Complete # 144
+Data Set Complete # 145
+Data Set Complete # 146
+Data Set Complete # 147
+Data Set Complete # 148
+Data Set Complete # 149
+Data Set Complete # 150
+Data Set Complete # 151
+Data Set Complete # 152
+Data Set Complete # 153
+Data Set Complete # 154
+Data Set Complete # 155
+Data Set Complete # 156
+Data Set Complete # 157
+Data Set Complete # 158
+Data Set Complete # 159
+Data Set Complete # 160
+Data Set Complete # 161
+Data Set Complete # 162
+Data Set Complete # 163
+Data Set Complete # 164
+Data Set Complete # 165
+Data Set Complete # 166
+Data Set Complete # 167
+Data Set Complete # 168
+Data Set Complete # 169
+Data Set Complete # 170
+Data Set Complete # 171
+Data Set Complete # 172
+Data Set Complete # 173
+Data Set Complete # 174
+Data Set Complete # 175
+Data Set Complete # 176
+Data Set Complete # 177
+Data Set Complete # 178
+Data Set Complete # 179
+Data Set Complete # 180
+Data Set Complete # 181
+Data Set Complete # 182
+Data Set Complete # 183
+Data Set Complete # 184
+Data Set Complete # 185
+Data Set Complete # 186
+Data Set Complete # 187
+Data Set Complete # 188
+Data Set Complete # 189
+Data Set Complete # 190
+Data Set Complete # 191
+Data Set Complete # 192
+Data Set Complete # 193
+Data Set Complete # 194
+Data Set Complete # 195
+Data Set Complete # 196
+Data Set Complete # 197
+Data Set Complete # 198
+Data Set Complete # 199
+Data Set Complete # 200
+Data Set Complete # 201
+Data Set Complete # 202
+Data Set Complete # 203
+Data Set Complete # 204
+Data Set Complete # 205
+Data Set Complete # 206
+Data Set Complete # 207
+Data Set Complete # 208
+Data Set Complete # 209
+Data Set Complete # 210
+Data Set Complete # 211
+Data Set Complete # 212
+Data Set Complete # 213
+Data Set Complete # 214
+Data Set Complete # 215
+Data Set Complete # 216
+Data Set Complete # 217
+Data Set Complete # 218
+Data Set Complete # 219
+Data Set Complete # 220
+Data Set Complete # 221
+Data Set Complete # 222
+Data Set Complete # 223
+Data Set Complete # 224
+Data Set Complete # 225
+Data Set Complete # 226
+Data Set Complete # 227
+Data Set Complete # 228
+Data Set Complete # 229
+Data Set Complete # 230
+Data Set Complete # 231
+Data Set Complete # 232
+Data Set Complete # 233
+Data Set Complete # 234
+Data Set Complete # 235
+Data Set Complete # 236
+Data Set Complete # 237
+Data Set Complete # 238
+Data Set Complete # 239
+Data Set Complete # 240
+Data Set Complete # 241
+Data Set Complete # 242
+Data Set Complete # 243
+Data Set Complete # 244
+Data Set Complete # 245
+Data Set Complete # 246
+Data Set Complete # 247
+Data Set Complete # 248
+Data Set Complete # 249
+Data Set Complete # 250
+Data Set Complete # 251
+Data Set Complete # 252
+Data Set Complete # 253
+Data Set Complete # 254
+Data Set Complete # 255
+Data Set Complete # 256
+Data Set Complete # 257
+Data Set Complete # 258
+Data Set Complete # 259
+Data Set Complete # 260
+Data Set Complete # 261
+Data Set Complete # 262
+Data Set Complete # 263
+Data Set Complete # 264
+Data Set Complete # 265
+Data Set Complete # 266
+Data Set Complete # 267
+Data Set Complete # 268
+Data Set Complete # 269
+Data Set Complete # 270
+Data Set Complete # 271
+Data Set Complete # 272
+Data Set Complete # 273
+Data Set Complete # 274
+Data Set Complete # 275
+Data Set Complete # 276
+Data Set Complete # 277
+Data Set Complete # 278
+Data Set Complete # 279
+Data Set Complete # 280
+Data Set Complete # 281
+Data Set Complete # 282
+Data Set Complete # 283
+Data Set Complete # 284
+Data Set Complete # 285
+Data Set Complete # 286
+Data Set Complete # 287
+Data Set Complete # 288
+Data Set Complete # 289
+Data Set Complete # 290
+Data Set Complete # 291
+Data Set Complete # 292
+Data Set Complete # 293
+Data Set Complete # 294
+Data Set Complete # 295
+Data Set Complete # 296
+Data Set Complete # 297
+Data Set Complete # 298
+Data Set Complete # 299
+Data Set Complete # 300
+ FCN=2173.98 FROM MIGRAD    STATUS=CONVERGED     152 CALLS         153 TOTAL
+                     EDM=1.3376e-08    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0          -3.47210e+00   2.08119e-03   2.08989e-05   6.35020e-02
+   2  p1           3.45697e+02   6.44338e-01   6.47031e-03   5.30922e-05
+ FCN=72696 FROM MIGRAD    STATUS=CONVERGED      67 CALLS          68 TOTAL
+                     EDM=1.73125e-09    STRATEGY= 1      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  p0          -2.73429e+00   1.73005e-03   1.64450e-04   1.28618e-02
+   2  p1           2.85854e+02   4.69631e-01   4.46404e-02   8.77540e-05
+Distrust even Einstein 0
+---------------------------------------
+Begin PBS Epilogue Mon May 29 14:27:37 EDT 2017
+Job ID:     16015539.shared-sched.pace.gatech.edu
+User ID:    agent3
+Job name:   LIVSim4
+Resources:  mem=8gb,neednodes=1:ppn=1,nodes=1:ppn=1,walltime=05:00:00
+Rsrc Used:  cput=01:02:38,energy_used=0,mem=97456kb,vmem=400412kb,walltime=01:02:41
+Queue:      cygnuspa-6
+Nodes:     
+iw-k37-5.pace.gatech.edu
+End PBS Epilogue Mon May 29 14:27:37 EDT 2017
+---------------------------------------
